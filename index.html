@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHOPROT</title>
+
+  <!-- new 2026-01-07 -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header>
+    <h1>CHOPROT</h1>
+    <p>Capture. Chop. Let it rot.</p>
+  </header>
+
+  <main>
+    <!-- Recording controls -->
+    <section id="controls">
+      <button id="recordMicBtn"> Record Mic</button>
+      <button id="recordScreenBtn"> Record Screen</button>
+      <button id="stopBtn" disabled>⏹ Stop</button>
+    </section>
+
+    <!-- Waveform placeholder -->
+    <section id="waveform">
+      <p>No audio loaded.</p>
+    </section>
+
+    <!-- Actions -->
+    <section id="actions">
+      <button id="sliceBtn" disabled>✂️ Auto Slice</button>
+      <button id="exportBtn" disabled>⬇️ Export WAVs</button>
+    </section>
+  </main>
+
+  <!-- new 2026-01-07 -->
+  <script src="app.js"></script>
+</body>
+</html>
