@@ -1,3 +1,327 @@
+#brandHeader {
+  /* ...existing styles... */
+  /* VHS glitch effect layering */
+}
+
+#brandHeader img {
+  /* ...existing styles... */
+  z-index: 1;
+  /* VHS glitch: animate filter and position */
+  animation: vhsGlitch 2.2s infinite linear alternate;
+}
+
+#brandHeader::before,
+#brandHeader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#brandHeader::before {
+  /* Subtle scanlines */
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.08) 0px,
+    rgba(0,0,0,0.08) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+#brandHeader::after {
+  /* Color channel split (glitch) */
+  background: linear-gradient(90deg, rgba(11,218,143,0.08) 0%, transparent 60%, rgba(48,105,207,0.10) 100%);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  animation: vhsColorGlitch 2.2s infinite linear alternate;
+}
+
+@keyframes vhsGlitch {
+  0% {
+    filter: contrast(1.1) brightness(0.75) hue-rotate(0deg) saturate(1.1);
+    transform: translateY(0px) skewX(0deg);
+  }
+  8% {
+    filter: contrast(1.2) brightness(0.7) hue-rotate(-8deg) saturate(1.2);
+    transform: translateY(-1.5px) skewX(-1deg);
+  }
+  12% {
+    filter: contrast(1.3) brightness(0.8) hue-rotate(8deg) saturate(1.3);
+    transform: translateY(2.5px) skewX(1.5deg);
+  }
+  16% {
+    filter: contrast(1.1) brightness(0.75) hue-rotate(0deg) saturate(1.1);
+    transform: translateY(0px) skewX(0deg);
+  }
+  60% {
+    filter: contrast(1.1) brightness(0.75) hue-rotate(0deg) saturate(1.1);
+    transform: translateY(0px) skewX(0deg);
+  }
+  65% {
+    filter: contrast(1.4) brightness(0.7) hue-rotate(-12deg) saturate(1.4);
+    transform: translateY(-3px) skewX(-2deg);
+  }
+  70% {
+    filter: contrast(1.2) brightness(0.8) hue-rotate(10deg) saturate(1.2);
+    transform: translateY(2px) skewX(2deg);
+  }
+  100% {
+    filter: contrast(1.1) brightness(0.75) hue-rotate(0deg) saturate(1.1);
+    transform: translateY(0px) skewX(0deg);
+  }
+}
+
+@keyframes vhsColorGlitch {
+  0%, 100% {
+    opacity: 0.7;
+    filter: none;
+  }
+  10% {
+    opacity: 0.95;
+    filter: blur(0.5px) hue-rotate(10deg);
+  }
+  15% {
+    opacity: 0.5;
+    filter: blur(1.2px) hue-rotate(-8deg);
+  }
+  20% {
+    opacity: 0.8;
+    filter: blur(0.7px) hue-rotate(6deg);
+  }
+  60% {
+    opacity: 0.7;
+    filter: none;
+  }
+  70% {
+    opacity: 1;
+    filter: blur(1.5px) hue-rotate(-12deg);
+  }
+}
+/* new 2026-01-10 */
+/* CHOPROT branded header */
+
+#brandHeader {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+  border-bottom: 2px solid #0BDA8F;
+}
+
+#brandHeader img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.1) brightness(0.75);
+}
+
+#brandHeader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.85)
+  );
+}
+
+.brandOverlay {
+  position: relative;
+  z-index: 2;
+  padding: 1.2rem;
+}
+
+.brandOverlay h1 {
+  font-size: 2.2rem;
+  letter-spacing: 0.15em;
+}
+
+.brandOverlay p {
+  opacity: 0.85;
+  font-size: 0.9rem;
+}
+/* new 2026-01-10: Modern grungy action buttons */
+#sliceControls button,
+#sliceControls .row button,
+#waveform button,
+.advanced button:not(.ghostBtn) {
+  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%);
+  color: #e0e0e0;
+  border: 2px solid #0BDA8F;
+  border-radius: 7px;
+  padding: 0.48em 1.2em;
+  font-size: 1.04em;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 8px #0BDA8F33, 0 1px 0 #222 inset;
+  outline: none;
+  cursor: pointer;
+  margin-right: 0.6em;
+  margin-bottom: 0.2em;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  position: relative;
+  text-shadow: 0 1px 4px #0BDA8F44;
+}
+
+#sliceControls button:last-child,
+#sliceControls .row button:last-child,
+#waveform button:last-child,
+.advanced button:last-child {
+  margin-right: 0;
+}
+
+#sliceControls button:active,
+#sliceControls .row button:active,
+#waveform button:active,
+.advanced button:active {
+  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%);
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #0BDA8F88, 0 2px 8px #0BDA8F33;
+}
+
+#sliceControls button:disabled,
+#sliceControls .row button:disabled,
+#waveform button:disabled,
+.advanced button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.3) blur(0.5px);
+}
+/* new 2026-01-10: Modern grungy record buttons */
+#controls button {
+  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%);
+  color: #e0e0e0;
+  border: 2px solid #0BDA8F;
+  border-radius: 7px;
+  padding: 0.55em 1.3em;
+  font-size: 1.08em;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 8px #0BDA8F33, 0 1px 0 #222 inset;
+  outline: none;
+  cursor: pointer;
+  margin-right: 0.7em;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  position: relative;
+  text-shadow: 0 1px 4px #0BDA8F44;
+}
+
+#controls button:last-child {
+  margin-right: 0;
+}
+
+#controls button:active {
+  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%);
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #0BDA8F88, 0 2px 8px #0BDA8F33;
+}
+
+#controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.3) blur(0.5px);
+}
+/* new 2026-01-10: Modern grungy select dropdown */
+select#chopMode {
+  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%);
+  color: #e0e0e0;
+  border: 2px solid #0BDA8F;
+  border-radius: 7px;
+  padding: 0.45em 2.2em 0.45em 1em;
+  font-size: 1.05em;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #0BDA8F33, 0 1px 0 #222 inset;
+  outline: none;
+  appearance: none;
+  position: relative;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+select#chopMode:focus {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #0BDA8F88, 0 2px 8px #0BDA8F33;
+}
+
+/* Custom dropdown arrow */
+select#chopMode {
+  background-image: url('data:image/svg+xml;utf8,<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%230BDA8F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.8em center;
+  background-size: 1.2em 1.2em;
+}
+
+/* LabelRow for select */
+label[for="chopMode"].labelRow {
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 700;
+  color: #0BDA8F;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px #0BDA8F44;
+  margin-bottom: 0.2em;
+}
+/* new 2026-01-10 */
+/* Advanced panel */
+.advanced.hidden {
+  display: none;
+}
+
+.advanced {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-top: 1px dashed rgba(255,255,255,0.15);
+}
+
+/* Ghost button style */
+.ghostBtn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: inherit;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ghostBtn:hover {
+  border-color: rgba(255,255,255,0.5);
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  cursor: help;
+  font-size: 0.9em;
+}
+
+.tooltipText {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #eee;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75em;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
 /* original 2026-01-07 */
 /* CHOPROT minimal dark base */
 
@@ -90,4 +414,94 @@ section {
 #statusText {
   margin-top: 0.75rem;
   opacity: 0.9;
+}
+
+/* new 2026-01-10 */
+/* Modal */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999; /* ensure modal overlay sits above everything */
+  pointer-events: auto; /* capture clicks */
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modalContent {
+  background: #0b0b0b;
+  border: 1px solid #333;
+  padding: 1.25rem;
+  max-width: 420px;
+  color: #e0e0e0;
+  position: relative;
+  z-index: 100000; /* ensure modal content is above the overlay */
+  pointer-events: auto;
+}
+
+/* When modal open, prevent body scrolling */
+body.modal-open {
+  overflow: hidden;
+}
+
+.modalContent h2 {
+  margin-bottom: 0.5rem;
+}
+
+.modalContent p {
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+/* new 2026-01-10 */
+/* Grungy ZIP Export Checkbox */
+.toggle input[type="checkbox"] {
+  opacity: 0;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+.toggle span[style*="width: 22px"] {
+  pointer-events: none;
+  position: relative;
+}
+.toggle input[type="checkbox"]:checked + span > #zipCheckIcon {
+  opacity: 1 !important;
+}
+.toggle input[type="checkbox"] + span > #zipCheckIcon {
+  opacity: 0 !important;
+}
+
+/* new 2026-01-10 */
+/* CHOP MODE controls */
+
+select {
+  background: #111;
+  color: #e0e0e0;
+  border: 1px solid #333;
+  padding: 0.7rem 0.8rem;
+}
+
+input[type="range"] {
+  width: 260px;
+  accent-color: #0BDA8F;
+}
+
+#applyModeBtn, #previewBtn, #exportMapBtn {
+  border: 1px solid #333;
+}
+
+#applyModeBtn:disabled, #previewBtn:disabled, #exportMapBtn:disabled {
+  opacity: 0.4;
 }

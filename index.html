@@ -15,9 +15,12 @@
 
 <body>
 
-  <header>
-    <h1>CHOPROT</h1>
-    <p>Capture. Chop. Let it rot.</p>
+  <header id="brandHeader">
+    <img src="assets/choprot_banner.png" alt="CHOPROT logo" />
+    <div class="brandOverlay">
+      <h1>CHOPROT</h1>
+      <p>Capture. Chop. Let it rot.</p>
+    </div>
   </header>
 
   <main>
@@ -53,19 +56,86 @@
         value="0.25" 
       />
 
+      <!-- new 2026-01-10 -->
+      <!-- CHOP MODE (genre/area) -->
+      <label for="chopMode" class="labelRow">
+        <span style="display: flex; align-items: center; gap: 0.4em;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align: middle;"><path d="M17 3c-2.5 2.5-2.5 6.5 0 9s6.5 2.5 9 0"/><path d="M7 21c2.5-2.5 2.5-6.5 0-9s-6.5-2.5-9 0"/><path d="M2 16c4-4 10-4 14 0"/><path d="M22 8c-4 4-10 4-14 0"/></svg>
+          CHOP MODE
+        </span>
+        <span id="modeHint">Select a vibe</span>
+      </label>
+
+      <div class="row">
+        <select id="chopMode">
+          <option value="none">— None (manual) —</option>
+          <option value="south">South (space + bounce)</option>
+          <option value="boombap">Boom Bap (punchy call/response)</option>
+          <option value="lofi">Lo-Fi (drift + micro variation)</option>
+          <option value="trap">Trap (sparse texture chops)</option>
+          <option value="detroit">Detroit (tight + repetitive)</option>
+          <option value="drill">Drill (dark + staggered)</option>
+        </select>
+
+        <button id="applyModeBtn" disabled>Apply Mode</button>
+      </div>
+
+      <!-- new 2026-01-10 -->
+      <label for="bpm" class="labelRow">
+        <span style="display: flex; align-items: center; gap: 0.4em;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align: middle;"><ellipse cx="12" cy="8" rx="8" ry="4"/><path d="M4 8v8a8 4 0 0 0 16 0V8"/><line x1="4" y1="8" x2="20" y2="8"/></svg>
+          Preview BPM
+        </span>
+        <span id="bpmVal">92</span>
+      </label>
+
+      <div class="row">
+        <input id="bpm" type="range" min="60" max="160" step="1" value="92" />
+        <button id="previewBtn" disabled>▶ Preview</button>
+      </div>
+
+      <!-- new 2026-01-10 -->
+      <div class="advancedToggleRow">
+        <button id="advancedToggleBtn" class="ghostBtn">
+          ⚙ Advanced
+        </button>
+      </div>
+
+      <!-- new 2026-01-10 -->
+      <div id="advancedPanel" class="advanced hidden">
+        <div class="row">
+          <button id="exportMapBtn" disabled style="display: flex; align-items: center; gap: 0.4em;">
+            <span style="display: inline-flex; align-items: center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0BDA8F" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; filter: drop-shadow(0 0 2px #0BDA8F88);">
+                <polyline points="3 6 9 3 15 6 21 3" />
+                <polyline points="3 18 9 21 15 18 21 21" />
+                <rect x="3" y="6" width="18" height="12" rx="2.5" fill="#181818" stroke="#0BDA8F"/>
+                <path d="M7 10l2 2l4-4l4 4" stroke="#0BDA8F" stroke-width="1.5" fill="none"/>
+              </svg>
+            </span>
+            Export Chop Map
+          </button>
+
+          <span class="tooltip">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0BDA8F" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; filter: drop-shadow(0 0 2px #0BDA8F88);">
+              <circle cx="12" cy="12" r="10" fill="#181818" stroke="#0BDA8F"/>
+              <line x1="12" y1="8" x2="12" y2="8.5" />
+              <rect x="11.1" y="10.5" width="1.8" height="5.2" rx="0.9" fill="#0BDA8F" stroke="#0BDA8F"/>
+            </svg>
+            <span class="tooltipText">
+              Advanced: saves chop order, timing, and mode as JSON for reuse or DAW tools.
+            </span>
+          </span>
+        </div>
+      </div>
+
+
       <div class="row">
         <button id="sliceBtn" disabled>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 0.3em;"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
           Auto Slice
         </button>
 
-        <label class="toggle">
-          <input id="zipToggle" type="checkbox" checked />
-          <span style="display: flex; align-items: center; gap: 0.3em;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align: middle;"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 3v3m4-3v3m4-3v3M4 9h16"/></svg>
-            ZIP Export
-          </span>
-        </label>
 
         <button id="exportBtn" disabled>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 0.3em;"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
@@ -87,6 +157,35 @@
 
   <!-- app logic -->
   <script src="app.js"></script>
+
+  <!-- new 2026-01-10 -->
+  <!-- Screen Record Info Modal -->
+  <div id="screenModal" class="modal hidden">
+    <div class="modalContent">
+      <h2 style="display: flex; align-items: center; gap: 0.5em;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: linear-gradient(135deg, #111 60%, #0BDA8F22 100%); border-radius: 7px; box-shadow: 0 2px 8px #0BDA8F33; border: 2px solid #0BDA8F;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0BDA8F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 2px #0BDA8F88);">
+            <rect x="3" y="6" width="18" height="12" rx="3" fill="#181818" stroke="#0BDA8F"/>
+            <rect x="7" y="10" width="10" height="4" rx="1.5" fill="#222" stroke="#0BDA8F"/>
+            <line x1="3" y1="6" x2="21" y2="18" stroke="#0BDA8F" stroke-width="1.2"/>
+            <circle cx="19" cy="8" r="1.2" fill="#0BDA8F"/>
+          </svg>
+        </span>
+        <span style="font-family: 'Montserrat', 'Arial', sans-serif; font-weight: 700; letter-spacing: 0.02em; color: #e0e0e0; text-shadow: 0 1px 4px #0BDA8F44;">Screen Recording</span>
+      </h2>
+      <p>
+        • Select <strong>Entire Screen</strong> or a <strong>Tab</strong><br />
+        • Enable <strong>Share system audio</strong> if available<br />
+        • Works best in Chrome / Edge (desktop)<br />
+        • Nothing is uploaded — recording stays local
+      </p>
+
+      <div class="row">
+        <button id="screenContinueBtn" type="button">Continue</button>
+        <button id="screenCancelBtn" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

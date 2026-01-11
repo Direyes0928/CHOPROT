@@ -1,3 +1,16 @@
+// new 2026-01-10
+const advancedToggleBtn = document.getElementById('advancedToggleBtn');
+const advancedPanel = document.getElementById('advancedPanel');
+
+if (advancedToggleBtn && advancedPanel) {
+  advancedToggleBtn.addEventListener('click', () => {
+    advancedPanel.classList.toggle('hidden');
+    advancedToggleBtn.textContent = 
+      advancedPanel.classList.contains('hidden')
+        ? '⚙ Advanced'
+        : '⚙ Advanced (open)';
+  });
+}
 // original 2026-01-10
 // (replaced file with full CHOPROT engine)
 
@@ -28,12 +41,25 @@ const exportBtn = document.getElementById('exportBtn');
 
 const sensitivityEl = document.getElementById('sensitivity');
 const sensValEl = document.getElementById('sensVal');
-const zipToggleEl = document.getElementById('zipToggle');
 
 const waveCanvas = document.getElementById('waveCanvas');
 const waveCtx = waveCanvas ? waveCanvas.getContext('2d') : null;
 
 const statusText = document.getElementById('statusText');
+
+// new 2026-01-10
+const chopModeEl = document.getElementById('chopMode');
+const applyModeBtn = document.getElementById('applyModeBtn');
+const previewBtn = document.getElementById('previewBtn');
+const exportMapBtn = document.getElementById('exportMapBtn');
+
+const bpmEl = document.getElementById('bpm');
+const bpmValEl = document.getElementById('bpmVal');
+const modeHintEl = document.getElementById('modeHint');
+
+// new 2026-01-10
+let activeModeKey = 'none';
+let patternMap = null; // { modeKey, bpm, steps: [{sliceIndex,startSample,endSample,beats}] }
 
 // new 2026-01-10
 function setStatus(msg) {
@@ -50,6 +76,11 @@ function setRecordingUI(isRecording) {
   const hasAudio = !!recordedBlob;
   if (sliceBtn) sliceBtn.disabled = isRecording || !hasAudio;
   if (exportBtn) exportBtn.disabled = isRecording || !hasAudio;
+
+  // new 2026-01-10
+  if (applyModeBtn) applyModeBtn.disabled = isRecording || !hasAudio;
+  if (previewBtn) previewBtn.disabled = isRecording || !hasAudio;
+  if (exportMapBtn) exportMapBtn.disabled = isRecording || !hasAudio;
 }
 
 // new 2026-01-10
@@ -137,25 +168,46 @@ async function startMicRecording() {
 
 // new 2026-01-10
 async function startScreenRecording() {
+  const modal = document.getElementById('screenModal');
+  if (!modal) {
+    setStatus('❌ Modal not found in DOM.');
+    return;
+  }
+
+  modal.classList.remove('hidden');
+  // lock background scroll / interactions
+  try { document.body.classList.add('modal-open'); } catch (e) {}
+
+  // Bind modal handlers after modal is visible so elements exist and listeners attach reliably.
+  // Use a short timeout to let the browser parse/paint the modal (very reliable).
+  setTimeout(() => {
+    try { bindScreenModalHandlers(); } catch (err) { console.warn('bindScreenModalHandlers failed', err); }
+  }, 50);
+}
+
+// new 2026-01-10
+async function confirmScreenRecording() {
+  console.log('CONFIRM clicked'); // new 2026-01-10
+
+  const modal = document.getElementById('screenModal');
+  if (modal) modal.classList.add('hidden');
+  try { document.body.classList.remove('modal-open'); } catch (e) {}
+
   try {
     setStatus('Requesting screen capture…');
     setRecordingUI(true);
 
-    // NOTE: System audio support varies by browser/OS
     const stream = await navigator.mediaDevices.getDisplayMedia({
       video: true,
       audio: true
     });
 
     currentStream = stream;
-
-    // We only need audio; video track exists but is fine
     startRecorderWithStream(stream);
   } catch (err) {
     console.error(err);
-    stopAndCleanupStream();
     setRecordingUI(false);
-    setStatus('❌ Screen recording failed (system audio may not be supported in this browser).');
+    setStatus('❌ Screen recording cancelled or failed.');
   }
 }
 
@@ -441,39 +493,7 @@ async function exportSlices() {
   setStatus('⬇️ Exporting…');
 
   try {
-    const useZip = !!(zipToggleEl && zipToggleEl.checked);
-
-    if (useZip) {
-      if (!window.JSZip) {
-        setStatus('❌ JSZip not loaded. Check your index.html script tag.');
-        return;
-      }
-
-      const zip = new JSZip();
-
-      for (let i = 0; i < exportPoints.length; i++) {
-        const start = exportPoints[i];
-        const end = exportPoints[i + 1] || decodedBuffer.length;
-
-        const sliceBuf = sliceBufferBySamples(decodedBuffer, start, end);
-        const wavBlob = bufferToWav(sliceBuf);
-
-        const arrBuf = await wavBlob.arrayBuffer();
-        const fileName = `choprot_slice_${String(i + 1).padStart(2, '0')}.wav`;
-        zip.file(fileName, arrBuf);
-      }
-
-      const zipBlob = await zip.generateAsync({ type: 'blob' });
-      triggerDownload(zipBlob, 'choprot_slices.zip');
-
-      setStatus(`
-        <span style="display: inline-flex; align-items: center; gap: 0.4em;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="vertical-align: middle;"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2l4-4"/></svg>
-          Exported ZIP (${exportPoints.length} slices).
-        </span>
-      `);
-      return;
-    }
+    // ZIP export removed: always export as individual WAV files
 
     // Non-ZIP: download each WAV
     for (let i = 0; i < exportPoints.length; i++) {
@@ -591,8 +611,342 @@ function bindCanvasEvents() {
   });
 }
 
+
+// new 2026-01-10
+// =======================
+// CHOP MODES (Genre/Area)
+// =======================
+
+// new 2026-01-10
+const CHOP_MODES = {
+  none: {
+    label: 'None (manual)',
+    hint: 'Manual markers only.'
+  },
+
+  south: {
+    label: 'South',
+    hint: 'Space + bounce: fewer chops, more repeat, longer gaps.',
+    density: 0.35,     // fewer unique slices used
+    repeatBias: 0.80,  // strong repetition
+    gapChance: 0.28,   // rests
+    stepBeats: 1,      // 1 beat per step
+    bars: 2            // preview length in bars
+  },
+
+  boombap: {
+    label: 'Boom Bap',
+    hint: 'Punchy call/response: moderate chops + structured feel.',
+    density: 0.55,
+    repeatBias: 0.55,
+    gapChance: 0.15,
+    stepBeats: 1,
+    bars: 2
+  },
+
+  lofi: {
+    label: 'Lo-Fi',
+    hint: 'Drift + micro variation: more chops, occasional doubles.',
+    density: 0.70,
+    repeatBias: 0.40,
+    gapChance: 0.10,
+    stepBeats: 1,
+    bars: 2,
+    jitter: 0.04 // timing humanization (seconds-ish scaled)
+  },
+
+  trap: {
+    label: 'Trap',
+    hint: 'Sparse texture chops: fewer hits, longer air.',
+    density: 0.30,
+    repeatBias: 0.65,
+    gapChance: 0.40,
+    stepBeats: 2, // slower chops (2 beats)
+    bars: 2
+  },
+
+  detroit: {
+    label: 'Detroit',
+    hint: 'Tight + repetitive: short loop, rapid repeats.',
+    density: 0.40,
+    repeatBias: 0.90,
+    gapChance: 0.08,
+    stepBeats: 1,
+    bars: 1
+  },
+
+  drill: {
+    label: 'Drill',
+    hint: 'Dark + staggered: uneven feel, gaps + surprises.',
+    density: 0.50,
+    repeatBias: 0.60,
+    gapChance: 0.25,
+    stepBeats: 1,
+    bars: 2,
+    stagger: true
+  }
+};
+
+// new 2026-01-10
+function updateModeHint() {
+  const key = chopModeEl ? chopModeEl.value : 'none';
+  const m = CHOP_MODES[key] || CHOP_MODES.none;
+  if (modeHintEl) modeHintEl.textContent = m.hint || '';
+}
+
+// new 2026-01-10
+function getBpm() {
+  const bpm = bpmEl ? Number(bpmEl.value) : 92;
+  return Number.isFinite(bpm) ? bpm : 92;
+}
+
+// new 2026-01-10
+function updateBpmLabel() {
+  if (bpmValEl && bpmEl) bpmValEl.textContent = String(bpmEl.value);
+}
+
+// new 2026-01-10
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// new 2026-01-10
+function pickSubset(arr, fraction) {
+  const copy = [...arr];
+  copy.sort(() => Math.random() - 0.5);
+  const take = Math.max(1, Math.floor(copy.length * fraction));
+  return copy.slice(0, take);
+}
+
+// new 2026-01-10
+function weightedPick(arr, weights) {
+  const sum = weights.reduce((a, b) => a + b, 0);
+  let r = Math.random() * sum;
+  for (let i = 0; i < arr.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return arr[i];
+  }
+  return arr[arr.length - 1];
+}
+
+// new 2026-01-10
+// Build a pattern using slice indices (not audio yet)
+function generatePatternFromSlices(sliceIdxList, modeKey) {
+  const mode = CHOP_MODES[modeKey] || CHOP_MODES.none;
+
+  if (modeKey === 'none') {
+    return {
+      modeKey,
+      steps: sliceIdxList.map(i => ({ sliceIndex: i, beats: 1 }))
+    };
+  }
+
+  const bpm = getBpm();
+  const bars = mode.bars || 2;
+  const beatsPerBar = 4;
+  const totalBeats = bars * beatsPerBar;
+  const stepBeats = mode.stepBeats || 1;
+  const stepsCount = Math.max(1, Math.floor(totalBeats / stepBeats));
+
+  // choose fewer/more unique slices based on density
+  const core = pickSubset(sliceIdxList, mode.density || 0.5);
+
+  // build weights to encourage repetition (repeatBias)
+  const weights = core.map((_, idx) => {
+    const base = 1;
+    const rep = (mode.repeatBias || 0.5) * (idx === 0 ? 1.7 : 1.0);
+    return base + rep;
+  });
+
+  const steps = [];
+  let last = null;
+
+  for (let s = 0; s < stepsCount; s++) {
+    const doGap = Math.random() < (mode.gapChance || 0);
+    if (doGap) {
+      steps.push({ sliceIndex: null, beats: stepBeats }); // rest
+      continue;
+    }
+
+    // Sometimes repeat the last slice hard (Detroit/South)
+    const forceRepeat = last !== null && Math.random() < (mode.repeatBias || 0.5);
+    const pick = forceRepeat ? last : weightedPick(core, weights);
+
+    steps.push({ sliceIndex: pick, beats: stepBeats });
+    last = pick;
+
+    // Drill stagger: occasional quick extra hit
+    if (mode.stagger && Math.random() < 0.22) {
+      steps.push({ sliceIndex: pick, beats: 0.5 });
+    }
+  }
+
+  return { modeKey, bpm, steps };
+}
+
 // new 2026-01-10
 // ===== Wire UI =====
+
+// new 2026-01-10
+function buildSliceIndexListFromMarkers() {
+  if (!decodedBuffer) return [];
+
+  // if user didn’t add markers, use auto slice points if available
+  const points = (slicePoints && slicePoints.length) ? [...slicePoints] : [];
+
+  // Always include start 0 to form segments cleanly
+  if (!points.includes(0)) points.unshift(0);
+
+  const sorted = [...new Set(points)].sort((a, b) => a - b);
+
+  // Convert segment boundaries into slice indices (0..N-1)
+  // Segment i is [sorted[i], sorted[i+1]) for i < last, and last is [sorted[last], end)
+  const sliceIdxList = [];
+  for (let i = 0; i < sorted.length; i++) sliceIdxList.push(i);
+
+  // Store boundaries globally so we can map sliceIndex -> samples
+  window._sliceBoundaries = sorted;
+
+  return sliceIdxList;
+}
+
+// new 2026-01-10
+function sliceIndexToSampleRange(sliceIndex) {
+  const b = window._sliceBoundaries || [];
+  if (!decodedBuffer || !b.length) return { start: 0, end: decodedBuffer.length };
+
+  const start = b[sliceIndex] ?? 0;
+  const end = b[sliceIndex + 1] ?? decodedBuffer.length;
+  return { start, end };
+}
+
+// new 2026-01-10
+function applyChopMode() {
+  if (!decodedBuffer) {
+    setStatus('❌ Record audio first.');
+    return;
+  }
+
+  const modeKey = chopModeEl ? chopModeEl.value : 'none';
+  activeModeKey = modeKey;
+
+  // build slice index list based on markers (or start-only fallback)
+  const sliceIdxList = buildSliceIndexListFromMarkers();
+  if (!sliceIdxList.length) {
+    setStatus('❌ No slices available.');
+    return;
+  }
+
+  // generate pattern
+  const pattern = generatePatternFromSlices(sliceIdxList, modeKey);
+
+  // Convert pattern steps -> sample ranges
+  patternMap = {
+    app: 'CHOPROT',
+    version: '2026-01-10',
+    modeKey,
+    modeLabel: (CHOP_MODES[modeKey] || CHOP_MODES.none).label,
+    bpm: getBpm(),
+    steps: pattern.steps.map((st, idx) => {
+      if (st.sliceIndex === null) {
+        return { step: idx + 1, sliceIndex: null, startSample: null, endSample: null, beats: st.beats };
+      }
+      const r = sliceIndexToSampleRange(st.sliceIndex);
+      return { step: idx + 1, sliceIndex: st.sliceIndex, startSample: r.start, endSample: r.end, beats: st.beats };
+    })
+  };
+
+  // Visual: set markers to the boundaries used (already are), and repaint
+  drawWaveform();
+
+  setStatus(`🧬 Mode applied: ${(CHOP_MODES[modeKey] || CHOP_MODES.none).label}. Preview or Export Map.`);
+}
+
+// new 2026-01-10
+let _previewStop = null;
+
+function stopPreview() {
+  if (_previewStop) {
+    _previewStop();
+    _previewStop = null;
+  }
+}
+
+// new 2026-01-10
+function previewPattern() {
+  if (!decodedBuffer) {
+    setStatus('❌ Record audio first.');
+    return;
+  }
+
+  if (!patternMap || !patternMap.steps || !patternMap.steps.length) {
+    setStatus('⚠️ No pattern yet. Apply a mode first.');
+    return;
+  }
+
+  stopPreview();
+
+  const bpm = getBpm();
+  const beatSec = 60 / bpm;
+
+  let t = audioCtx.currentTime + 0.05; // slight lead-in
+
+  // optional humanization for lofi
+  const mode = CHOP_MODES[activeModeKey] || CHOP_MODES.none;
+  const jitter = mode.jitter ? mode.jitter : 0;
+
+  const activeSources = [];
+
+  for (const st of patternMap.steps) {
+    const durSec = (st.beats || 1) * beatSec;
+
+    if (st.sliceIndex !== null && st.startSample !== null) {
+      const startSec = st.startSample / decodedBuffer.sampleRate;
+      const endSec = st.endSample / decodedBuffer.sampleRate;
+      const sliceDur = Math.max(0.02, endSec - startSec);
+
+      const src = audioCtx.createBufferSource();
+      src.buffer = decodedBuffer;
+
+      const g = audioCtx.createGain();
+      g.gain.value = 0.9;
+
+      src.connect(g).connect(audioCtx.destination);
+
+      const jt = jitter ? ((Math.random() * 2 - 1) * jitter) : 0;
+      const playAt = Math.max(audioCtx.currentTime, t + jt);
+
+      // play only as long as the beat step (or slice duration, whichever is smaller)
+      const playLen = Math.max(0.02, Math.min(durSec, sliceDur));
+
+      src.start(playAt, startSec, playLen);
+      activeSources.push(src);
+    }
+
+    t += durSec;
+  }
+
+  _previewStop = () => {
+    activeSources.forEach(s => {
+      try { s.stop(); } catch (e) {}
+    });
+  };
+
+  setStatus(`▶ Previewing (${(CHOP_MODES[activeModeKey] || CHOP_MODES.none).label}) @ ${bpm} BPM`);
+}
+
+// new 2026-01-10
+function exportPatternMapJson() {
+  if (!patternMap) {
+    setStatus('❌ No pattern map. Apply a mode first.');
+    return;
+  }
+
+  const blob = new Blob([JSON.stringify(patternMap, null, 2)], { type: 'application/json' });
+  triggerDownload(blob, 'choprot_pattern_map.json');
+
+  setStatus('🗺 Exported pattern map JSON.');
+}
 
 if (recordMicBtn) recordMicBtn.addEventListener('click', startMicRecording);
 if (recordScreenBtn) recordScreenBtn.addEventListener('click', startScreenRecording);
@@ -610,8 +964,90 @@ if (sensitivityEl) {
 }
 
 // new 2026-01-10
+// Bind modal buttons dynamically when the modal is shown (prevents race when script runs
+// before modal HTML is parsed). Safe to call multiple times.
+function bindScreenModalHandlers() {
+  const continueBtn = document.getElementById('screenContinueBtn');
+  const cancelBtn = document.getElementById('screenCancelBtn');
+  const modal = document.getElementById('screenModal');
+
+  if (!continueBtn || !cancelBtn || !modal) {
+    console.warn('[ScreenModal] Buttons/modal not found yet — skipping bind');
+    return false;
+  }
+
+  // Remove old listeners by replacing the node (simple and robust)
+  const newContinue = continueBtn.cloneNode(true);
+  continueBtn.parentNode.replaceChild(newContinue, continueBtn);
+
+  // re-acquire after clone
+  const boundContinue = document.getElementById('screenContinueBtn');
+
+  boundContinue.addEventListener('click', async (e) => {
+    e.preventDefault();
+    console.log('[DEBUG] CONTINUE clicked!');
+
+    if (modal) modal.classList.add('hidden');
+    try { document.body.classList.remove('modal-open'); } catch (e) {}
+
+    try {
+      setStatus('Requesting screen capture…');
+      setRecordingUI(true);
+
+      const stream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true
+      });
+
+      console.log('[DEBUG] Screen stream acquired', stream);
+      currentStream = stream;
+      startRecorderWithStream(stream);
+    } catch (err) {
+      console.error('[DEBUG] getDisplayMedia failed:', err && err.name, err && err.message);
+      setRecordingUI(false);
+      setStatus('❌ Screen recording cancelled or failed.');
+    }
+  });
+
+  // cancel button — ensure only one listener
+  cancelBtn.replaceWith(cancelBtn.cloneNode(true));
+  const boundCancel = document.getElementById('screenCancelBtn');
+  boundCancel.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('[DEBUG] CANCEL clicked');
+    if (modal) modal.classList.add('hidden');
+    try { document.body.classList.remove('modal-open'); } catch (e) {}
+    setStatus('Screen recording cancelled.');
+  });
+
+  console.log('[ScreenModal] Buttons successfully bound!');
+  return true;
+}
+
+// new 2026-01-10
+if (chopModeEl) {
+  chopModeEl.addEventListener('change', () => {
+    updateModeHint();
+    activeModeKey = chopModeEl.value;
+    setStatus(`🧬 Mode selected: ${(CHOP_MODES[activeModeKey] || CHOP_MODES.none).label}`);
+  });
+}
+
+if (applyModeBtn) applyModeBtn.addEventListener('click', applyChopMode);
+if (previewBtn) previewBtn.addEventListener('click', previewPattern);
+if (exportMapBtn) exportMapBtn.addEventListener('click', exportPatternMapJson);
+
+if (bpmEl) {
+  bpmEl.addEventListener('input', () => {
+    updateBpmLabel();
+  });
+}
+
+// new 2026-01-10
 // Init
 updateSensitivityLabel();
+updateModeHint();
+updateBpmLabel();
 setRecordingUI(false);
 bindCanvasEvents();
 drawWaveform();
