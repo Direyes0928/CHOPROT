@@ -82,9 +82,9 @@ No data leaves your machine.
 |---------|-----|--------------|
 | Chrome (Desktop) | yes | yes |
 | Edge (Desktop) | yes | yes |
-| Firefox | yes | ⚠ Partial |
+| Firefox | yes |  Meh |
 | Safari | yes | No |
-| Mobile Browsers | ⚠ | No |
+| Mobile Browsers | Meh | No |
 
 System audio support depends on OS + browser security policies.
 

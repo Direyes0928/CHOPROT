@@ -150,23 +150,25 @@
 #sliceControls .row button,
 #waveform button,
 .advanced button:not(.ghostBtn) {
-  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%);
+  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   color: #e0e0e0;
   border: 2px solid #0BDA8F;
-  border-radius: 7px;
-  padding: 0.48em 1.2em;
-  font-size: 1.04em;
+  border-radius: 8px;
+  padding: 0.5em 1.1em;
+  font-size: 1em;
   font-family: 'Montserrat', 'Arial', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  box-shadow: 0 2px 8px #0BDA8F33, 0 1px 0 #222 inset;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   outline: none;
   cursor: pointer;
-  margin-right: 0.6em;
-  margin-bottom: 0.2em;
-  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  margin-right: 0.5em;
+  margin-bottom: 0.3em;
+  transition: all 0.2s ease;
   position: relative;
-  text-shadow: 0 1px 4px #0BDA8F44;
+  text-shadow: 0 1px 2px rgba(11, 218, 143, 0.5);
+  filter: contrast(1.1) brightness(0.95);
 }
 
 #sliceControls button:last-child,
@@ -176,57 +178,111 @@
   margin-right: 0;
 }
 
+#sliceControls button:hover,
+#sliceControls .row button:hover,
+#waveform button:hover,
+.advanced button:hover {
+  border-color: #0ff;
+  box-shadow: 0 4px 16px rgba(11, 218, 143, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  filter: contrast(1.2) brightness(1.05);
+}
+
 #sliceControls button:active,
 #sliceControls .row button:active,
 #waveform button:active,
 .advanced button:active {
-  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%);
+  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   border-color: #fff;
-  box-shadow: 0 0 0 2px #0BDA8F88, 0 2px 8px #0BDA8F33;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(11, 218, 143, 0.3);
+  transform: translateY(0);
 }
 
 #sliceControls button:disabled,
 #sliceControls .row button:disabled,
 #waveform button:disabled,
 .advanced button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
-  filter: grayscale(0.3) blur(0.5px);
+  filter: grayscale(0.5) blur(0.3px);
+  transform: none;
 }
 /* new 2026-01-10: Modern grungy record buttons */
 #controls button {
-  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%);
+  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   color: #e0e0e0;
   border: 2px solid #0BDA8F;
-  border-radius: 7px;
-  padding: 0.55em 1.3em;
-  font-size: 1.08em;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-size: 1.05em;
   font-family: 'Montserrat', 'Arial', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  box-shadow: 0 2px 8px #0BDA8F33, 0 1px 0 #222 inset;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   outline: none;
   cursor: pointer;
-  margin-right: 0.7em;
-  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  margin-right: 0.6em;
+  transition: all 0.2s ease;
   position: relative;
-  text-shadow: 0 1px 4px #0BDA8F44;
+  text-shadow: 0 1px 2px rgba(11, 218, 143, 0.5);
+  filter: contrast(1.1) brightness(0.95);
 }
+
+/* Reset button standout (edgy) */
+#resetBtn {
+  background: linear-gradient(135deg, #1a0712 30%, #ff2d6f 100%),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.06"/></svg>');
+  border: 2px solid #ff5a8d;
+  color: #fff;
+  box-shadow: 0 6px 22px rgba(255,45,111,0.18), inset 0 1px 0 rgba(255,255,255,0.05);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* Danger button used in reset modal */
+.btn-danger {
+  background: linear-gradient(135deg, #ff2d6f, #ff5a8d);
+  color: #10060a;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(255,45,111,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn-danger:hover { transform: translateY(-1px); box-shadow: 0 8px 26px rgba(255,45,111,0.45); }
+
+/* Slightly tweaked confirm modal visuals */
+.modal-confirm .modal-title { color: #ff7aa3; }
+.modal-confirm { border-color: rgba(255,90,141,0.9); }
+.modal-confirm::after { background: linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.85)); }
 
 #controls button:last-child {
   margin-right: 0;
 }
 
+#controls button:hover {
+  border-color: #0ff;
+  box-shadow: 0 4px 16px rgba(11, 218, 143, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  filter: contrast(1.2) brightness(1.05);
+}
+
 #controls button:active {
-  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%);
+  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   border-color: #fff;
-  box-shadow: 0 0 0 2px #0BDA8F88, 0 2px 8px #0BDA8F33;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(11, 218, 143, 0.3);
+  transform: translateY(0);
 }
 
 #controls button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
-  filter: grayscale(0.3) blur(0.5px);
+  filter: grayscale(0.5) blur(0.3px);
+  transform: none;
 }
 /* new 2026-01-10: Modern grungy select dropdown */
 select#chopMode {
@@ -281,16 +337,80 @@ label[for="chopMode"].labelRow {
 
 /* Ghost button style */
 .ghostBtn {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.25);
+  background: linear-gradient(135deg, transparent 70%, rgba(11, 218, 143, 0.1) 100%),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
+  border: 1px solid rgba(255,255,255,0.3);
   color: inherit;
-  padding: 0.4rem 0.7rem;
-  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
   cursor: pointer;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(11, 218, 143, 0.2);
+  transition: all 0.2s ease;
+  filter: contrast(1.1) brightness(0.95);
 }
 
 .ghostBtn:hover {
-  border-color: rgba(255,255,255,0.5);
+  border-color: rgba(11, 218, 143, 0.6);
+  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.4);
+  transform: translateY(-1px);
+  filter: contrast(1.2) brightness(1.05);
+}
+
+/* new 2026-01-10 */
+/* Tool buttons for canvas mode (Play vs Slice) */
+.toolBtn {
+  padding: 0.45rem 0.9rem;
+  border-radius: 7px;
+  font-weight: 700;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  border: 2px solid rgba(255,255,255,0.06);
+  background: linear-gradient(135deg, #1a1a1a, #141414);
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+.toolBtn.active {
+  border-color: #0BDA8F;
+  box-shadow: 0 6px 18px rgba(11,218,143,0.12), inset 0 1px 0 rgba(255,255,255,0.02);
+  transform: translateY(-1px);
+}
+
+/* new 2026-01-10 */
+/* Custom cursors for canvas depending on active tool */
+#waveCanvas.tool-play {
+  /* play triangle cursor (green) */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><polygon points='6,4 20,12 6,20' fill='%230BDA8F'/></svg>") 12 12, pointer;
+}
+
+#waveCanvas.tool-slice {
+  /* razor/knife cursor (pink) */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><rect x='2' y='9' width='18' height='3' rx='1' fill='%23ff2d6f'/><rect x='4' y='13' width='12' height='3' rx='1' fill='%230BDA8F' transform='rotate(-18 10 14)'/></svg>") 12 12, crosshair;
+}
+
+/* Ensure default hover shows pointer when no tool class present */
+#waveCanvas { cursor: default; }
+
+/* new 2026-01-10 */
+/* Toolkit overlay in waveform (top-right) */
+.toolkit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 20;
+}
+.toolBtn.small {
+  padding: 0.28rem 0.6rem;
+  font-size: 0.82em;
+  border-radius: 6px;
+}
+.toolkit .toolBtn {
+  background: linear-gradient(135deg, rgba(11,218,143,0.06), rgba(11,218,143,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 /* Tooltip */
@@ -426,8 +546,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999; /* ensure modal overlay sits above everything */
-  pointer-events: auto; /* capture clicks */
+  z-index: 1000;
 }
 
 .modal.hidden {
@@ -435,14 +554,30 @@ section {
 }
 
 .modalContent {
-  background: #0b0b0b;
-  border: 1px solid #333;
-  padding: 1.25rem;
-  max-width: 420px;
+  background: url('assets/choprot_banner.png') center/cover no-repeat;
+  border: 2px solid #0BDA8F;
+  padding: 1.5rem;
+  max-width: 350px;
+  width: 90%;
   color: #e0e0e0;
   position: relative;
-  z-index: 100000; /* ensure modal content is above the overlay */
-  pointer-events: auto;
+  box-shadow: 0 0 0 1px rgba(48,105,207,0.3), 0 12px 40px rgba(0,0,0,0.8);
+  text-align: center;
+}
+
+.modalContent::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.85));
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.modalContent h2,
+.modalContent p {
+  position: relative;
+  z-index: 1;
 }
 
 /* When modal open, prevent body scrolling */
@@ -504,4 +639,112 @@ input[type="range"] {
 
 #applyModeBtn:disabled, #previewBtn:disabled, #exportMapBtn:disabled {
   opacity: 0.4;
+}
+
+/* new 2026-01-10 */
+/* INTRO MODAL — GRUNGY */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(11,218,143,0.15), rgba(0,0,0,0.85));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-grunge {
+  background: url('assets/choprot_banner.png') center/cover no-repeat, linear-gradient(180deg, #0a0a0a, #050505);
+  border: 2px solid #0BDA8F;
+  padding: 1.5rem;
+  max-width: 350px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 0 1px rgba(48,105,207,0.3), 0 12px 40px rgba(0,0,0,0.8);
+  position: relative;
+}
+
+.modal-grunge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.85));
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.modal-title,
+.modal-question {
+  position: relative;
+  z-index: 1;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+  color: #0BDA8F;
+}
+
+.modal-question {
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+  color: #e0e0e0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0BDA8F, #3069CF),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+  border: none;
+  padding: 0.6rem 1.2rem;
+  color: #000;
+  font-weight: 600;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  letter-spacing: 0.02em;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  filter: contrast(1.1) brightness(0.95);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #333, #111),
+              url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+  border: 1px solid #555;
+  padding: 0.6rem 1.2rem;
+  color: #aaa;
+  font-weight: 600;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  letter-spacing: 0.02em;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+  filter: contrast(1.1) brightness(0.95);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.15) contrast(1.2);
+  box-shadow: 0 4px 16px rgba(11, 218, 143, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:hover {
+  border-color: #777;
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }

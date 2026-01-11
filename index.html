@@ -35,6 +35,7 @@
         Record Screen
       </button>
       <button id="stopBtn" disabled>⏹ Stop</button>
+      <button id="resetBtn">🔄 Reset</button>
     </section>
 
     <!-- Slice controls -->
@@ -78,6 +79,7 @@
         </select>
 
         <button id="applyModeBtn" disabled>Apply Mode</button>
+        <button id="revertModeBtn" disabled style="margin-left:0.5rem;">↶ Revert</button>
       </div>
 
       <!-- new 2026-01-10 -->
@@ -92,6 +94,12 @@
       <div class="row">
         <input id="bpm" type="range" min="60" max="160" step="1" value="92" />
         <button id="previewBtn" disabled>▶ Preview</button>
+      </div>
+
+      <!-- new 2026-01-10 -->
+      <!-- Tool selection: Play vs Slice -->
+      <div class="row" style="margin-top:0.6rem; gap:0.5rem;">
+        <!-- Outer tool buttons removed to avoid duplicate UI; use the top-right toolkit inside the waveform -->
       </div>
 
       <!-- new 2026-01-10 -->
@@ -150,7 +158,18 @@
 
     <!-- Waveform -->
     <section id="waveform">
-      <canvas id="waveCanvas" width="1100" height="240"></canvas>
+      <div class="waveWrap" style="position: relative;">
+        <canvas id="waveCanvas" width="1100" height="240"></canvas>
+
+        <!-- new 2026-01-10 -->
+        <!-- Toolkit (top-right) for quick tool selection -->
+        <div class="toolkit" aria-hidden="false">
+          <button id="toolPlayBtnTop" class="toolBtn small active">Play</button>
+          <button id="toolSliceBtnTop" class="toolBtn small">Slice</button>
+          <button id="toolUndoBtnTop" class="toolBtn small">Undo</button>
+          <button id="toolLoopBtnTop" class="toolBtn small">Loop</button>
+        </div>
+      </div>
       <p id="statusText">Ready. Record something nasty.</p>
     </section>
   </main>
@@ -183,6 +202,47 @@
       <div class="row">
         <button id="screenContinueBtn" type="button">Continue</button>
         <button id="screenCancelBtn" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- new 2026-01-10 -->
+  <!-- CHOPROT INTRO MODAL -->
+  <div id="introModal" class="modal hidden">
+    <div class="modal-box modal-grunge">
+      <h2 class="modal-title">CHOPROT</h2>
+      <p class="modal-question">
+        Are you ready to chop shit up?
+      </p>
+
+      <div class="modal-actions">
+        <button id="introYesBtn" class="btn-primary">Yeah. Let’s chop.</button>
+        <button id="introNoBtn" class="btn-secondary">Not yet.</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- new 2026-01-10 -->
+  <!-- MIC CONFIRM MODAL -->
+  <div id="micModal" class="modal hidden">
+    <div class="modal-box modal-grunge">
+      <h2 class="modal-title">Ready?</h2>
+      <p class="modal-question">Are you ready to Chop That Shiiii ?</p>
+      <div class="modal-actions">
+        <button id="micYesBtn" class="btn-primary">Yeah — Chop!</button>
+        <button id="micNoBtn" class="btn-secondary">Not yet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET CONFIRM modal -->
+  <div id="resetModal" class="modal hidden">
+    <div class="modal-box modal-grunge modal-confirm">
+      <h2 class="modal-title">Reset Project</h2>
+      <p class="modal-question">Are you sure you want to reset the project? This will clear the current recording, markers, and settings.</p>
+      <div class="modal-actions">
+        <button id="resetConfirmBtn" class="btn-danger">Reset</button>
+        <button id="resetCancelBtn" class="btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
