@@ -358,7 +358,7 @@ function drawWaveform() {
 
     if (currentPreviewStepIndex === -2) {
       // full-sample fallback highlight
-      waveCtx.fillStyle = 'rgba(11,218,143,0.06)';
+      waveCtx.fillStyle = 'rgba(255,140,60,0.06)';
       waveCtx.fillRect(0, 0, w, h);
 
       // brighten waveform across full range by redrawing peaks with a brighter stroke under a clip
@@ -366,7 +366,7 @@ function drawWaveform() {
       waveCtx.beginPath();
       waveCtx.rect(0, 0, w, h);
       waveCtx.clip();
-      waveCtx.strokeStyle = '#7CFFB1';
+      waveCtx.strokeStyle = '#FFC48A';
       waveCtx.lineWidth = 1.6;
       waveCtx.globalAlpha = 0.9;
       waveCtx.beginPath();
@@ -387,7 +387,7 @@ function drawWaveform() {
         const wSeg = Math.max(2, x1 - x0);
 
         // translucent overlay for the active slice
-        waveCtx.fillStyle = 'rgba(11,218,143,0.08)';
+        waveCtx.fillStyle = 'rgba(255,140,60,0.08)';
         waveCtx.fillRect(x0, 0, wSeg, h);
 
         // redraw brighter waveform clipped to that slice region
@@ -395,7 +395,7 @@ function drawWaveform() {
         waveCtx.beginPath();
         waveCtx.rect(x0, 0, wSeg, h);
         waveCtx.clip();
-        waveCtx.strokeStyle = '#7CFFB1';
+        waveCtx.strokeStyle = '#FFC48A';
         waveCtx.lineWidth = 1.6;
         waveCtx.globalAlpha = 0.95;
         waveCtx.beginPath();
@@ -421,7 +421,7 @@ function drawWaveform() {
       const x0 = sampleToX(st.startSample, waveCanvas.width);
       const x1 = sampleToX(st.endSample, waveCanvas.width);
       const wSeg = Math.max(2, x1 - x0);
-      waveCtx.fillStyle = 'rgba(255,45,111,0.10)';
+      waveCtx.fillStyle = 'rgba(255,140,60,0.10)';
       waveCtx.fillRect(x0, 0, wSeg, waveCanvas.height);
     }
   }
@@ -434,7 +434,7 @@ function drawMarkers() {
   const w = waveCanvas.width;
   const h = waveCanvas.height;
 
-  waveCtx.strokeStyle = '#0BDA8F'; // grungy green vibe
+  waveCtx.strokeStyle = '#FF8C3C'; // grungy orange vibe
   waveCtx.lineWidth = 2;
 
   const sorted = [...slicePoints].sort((a, b) => a - b);
@@ -461,7 +461,7 @@ function drawMarkers() {
     // Visual style: used markers are thicker/brighter, unused are thinner/dimmer
     waveCtx.beginPath();
     waveCtx.lineWidth = usedByMode ? 3 : 1;
-    waveCtx.strokeStyle = usedByMode ? '#0BDA8F' : '#4b4b4b';
+    waveCtx.strokeStyle = usedByMode ? '#FF8C3C' : '#4b4b4b';
     waveCtx.moveTo(x, 0);
     waveCtx.lineTo(x, h);
     waveCtx.stroke();
@@ -1998,7 +1998,7 @@ drawWaveform();
           cursor: pointer;
           transition: transform 140ms ease, box-shadow 140ms ease, background 120ms ease;
         }
-        #miniToolKit button.active { box-shadow: 0 6px 16px rgba(11,218,143,0.12); transform: translateY(-3px); }
+        #miniToolKit button.active { box-shadow: 0 6px 16px rgba(255,140,60,0.12); transform: translateY(-3px); }
         #miniToolKit button:disabled { opacity: 0.45; cursor: default; }
         #miniToolKit svg { width: 18px; height: 18px; display:block; }
       `;
@@ -2113,7 +2113,7 @@ drawWaveform();
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
           transition: transform 140ms ease, box-shadow 140ms ease;
         }
-        .modernControl:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(11,218,143,0.06); }
+        .modernControl:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255,140,60,0.06); }
         .modernControl svg { width: 14px; height: 14px; display:block; }
       `;
       document.head.appendChild(s);

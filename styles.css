@@ -33,7 +33,7 @@
 
 #brandHeader::after {
   /* Color channel split (glitch) */
-  background: linear-gradient(90deg, rgba(11,218,143,0.08) 0%, transparent 60%, rgba(48,105,207,0.10) 100%);
+  background: linear-gradient(90deg, rgba(255,140,60,0.08) 0%, transparent 60%, rgba(48,105,207,0.10) 100%);
   mix-blend-mode: screen;
   opacity: 0.7;
   animation: vhsColorGlitch 2.2s infinite linear alternate;
@@ -107,7 +107,7 @@
   position: relative;
   height: 140px;
   overflow: hidden;
-  border-bottom: 2px solid #0BDA8F;
+  border-bottom: 2px solid #FF8C3C;
 }
 
 #brandHeader img {
@@ -150,24 +150,24 @@
 #sliceControls .row button,
 #waveform button,
 .advanced button:not(.ghostBtn) {
-  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%),
+  background: linear-gradient(135deg, #181818 70%, #FF8C3C22 100%),
               url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   color: #e0e0e0;
-  border: 2px solid #0BDA8F;
+  border: 2px solid #FF8C3C;
   border-radius: 8px;
   padding: 0.5em 1.1em;
   font-size: 1em;
   font-family: 'Montserrat', 'Arial', sans-serif;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 3px 12px rgba(255, 140, 60, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   outline: none;
   cursor: pointer;
   margin-right: 0.5em;
   margin-bottom: 0.3em;
   transition: all 0.2s ease;
   position: relative;
-  text-shadow: 0 1px 2px rgba(11, 218, 143, 0.5);
+  text-shadow: 0 1px 2px rgba(255, 140, 60, 0.5);
   filter: contrast(1.1) brightness(0.95);
 }
 
@@ -183,7 +183,7 @@
 #waveform button:hover,
 .advanced button:hover {
   border-color: #0ff;
-  box-shadow: 0 4px 16px rgba(11, 218, 143, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(255, 140, 60, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
   filter: contrast(1.2) brightness(1.05);
 }
@@ -192,10 +192,10 @@
 #sliceControls .row button:active,
 #waveform button:active,
 .advanced button:active {
-  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%),
+  background: linear-gradient(135deg, #FF8C3C22 60%, #181818 100%),
               url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   border-color: #fff;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(11, 218, 143, 0.3);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(255, 140, 60, 0.3);
   transform: translateY(0);
 }
 
@@ -210,23 +210,23 @@
 }
 /* new 2026-01-10: Modern grungy record buttons */
 #controls button {
-  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%),
+  background: linear-gradient(135deg, #181818 70%, #FF8C3C22 100%),
               url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   color: #e0e0e0;
-  border: 2px solid #0BDA8F;
+  border: 2px solid #FF8C3C;
   border-radius: 8px;
   padding: 0.6em 1.2em;
   font-size: 1.05em;
   font-family: 'Montserrat', 'Arial', sans-serif;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 3px 12px rgba(255, 140, 60, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   outline: none;
   cursor: pointer;
   margin-right: 0.6em;
   transition: all 0.2s ease;
   position: relative;
-  text-shadow: 0 1px 2px rgba(11, 218, 143, 0.5);
+  text-shadow: 0 1px 2px rgba(255, 140, 60, 0.5);
   filter: contrast(1.1) brightness(0.95);
 }
 
@@ -265,16 +265,16 @@
 
 #controls button:hover {
   border-color: #0ff;
-  box-shadow: 0 4px 16px rgba(11, 218, 143, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(255, 140, 60, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
   filter: contrast(1.2) brightness(1.05);
 }
 
 #controls button:active {
-  background: linear-gradient(135deg, #0BDA8F22 60%, #181818 100%),
+  background: linear-gradient(135deg, #FF8C3C22 60%, #181818 100%),
               url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   border-color: #fff;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(11, 218, 143, 0.3);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(255, 140, 60, 0.3);
   transform: translateY(0);
 }
 
@@ -286,15 +286,15 @@
 }
 /* new 2026-01-10: Modern grungy select dropdown */
 select#chopMode {
-  background: linear-gradient(135deg, #181818 70%, #0BDA8F22 100%);
+  background: linear-gradient(135deg, #181818 70%, #FF8C3C22 100%);
   color: #e0e0e0;
-  border: 2px solid #0BDA8F;
+  border: 2px solid #FF8C3C;
   border-radius: 7px;
   padding: 0.45em 2.2em 0.45em 1em;
   font-size: 1.05em;
   font-family: 'Montserrat', 'Arial', sans-serif;
   font-weight: 600;
-  box-shadow: 0 2px 8px #0BDA8F33, 0 1px 0 #222 inset;
+  box-shadow: 0 2px 8px #FF8C3C33, 0 1px 0 #222 inset;
   outline: none;
   appearance: none;
   position: relative;
@@ -303,12 +303,12 @@ select#chopMode {
 
 select#chopMode:focus {
   border-color: #fff;
-  box-shadow: 0 0 0 2px #0BDA8F88, 0 2px 8px #0BDA8F33;
+  box-shadow: 0 0 0 2px #FF8C3C88, 0 2px 8px #FF8C3C33;
 }
 
 /* Custom dropdown arrow */
 select#chopMode {
-  background-image: url('data:image/svg+xml;utf8,<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%230BDA8F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%23FF8C3C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
   background-repeat: no-repeat;
   background-position: right 0.8em center;
   background-size: 1.2em 1.2em;
@@ -318,9 +318,9 @@ select#chopMode {
 label[for="chopMode"].labelRow {
   font-family: 'Montserrat', 'Arial', sans-serif;
   font-weight: 700;
-  color: #0BDA8F;
+  color: #FF8C3C;
   letter-spacing: 0.02em;
-  text-shadow: 0 1px 4px #0BDA8F44;
+  text-shadow: 0 1px 4px #FF8C3C44;
   margin-bottom: 0.2em;
 }
 /* new 2026-01-10 */
@@ -337,7 +337,7 @@ label[for="chopMode"].labelRow {
 
 /* Ghost button style */
 .ghostBtn {
-  background: linear-gradient(135deg, transparent 70%, rgba(11, 218, 143, 0.1) 100%),
+  background: linear-gradient(135deg, transparent 70%, rgba(255, 140, 60, 0.1) 100%),
               url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
   border: 1px solid rgba(255,255,255,0.3);
   color: inherit;
@@ -347,14 +347,14 @@ label[for="chopMode"].labelRow {
   font-family: 'Montserrat', 'Arial', sans-serif;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 2px 8px rgba(11, 218, 143, 0.2);
+  box-shadow: 0 2px 8px rgba(255, 140, 60, 0.2);
   transition: all 0.2s ease;
   filter: contrast(1.1) brightness(0.95);
 }
 
 .ghostBtn:hover {
-  border-color: rgba(11, 218, 143, 0.6);
-  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.4);
+  border-color: rgba(255, 140, 60, 0.6);
+  box-shadow: 0 3px 12px rgba(255, 140, 60, 0.4);
   transform: translateY(-1px);
   filter: contrast(1.2) brightness(1.05);
 }
@@ -373,8 +373,8 @@ label[for="chopMode"].labelRow {
   transition: all 0.14s ease;
 }
 .toolBtn.active {
-  border-color: #0BDA8F;
-  box-shadow: 0 6px 18px rgba(11,218,143,0.12), inset 0 1px 0 rgba(255,255,255,0.02);
+  border-color: #FF8C3C;
+  box-shadow: 0 6px 18px rgba(255,140,60,0.12), inset 0 1px 0 rgba(255,255,255,0.02);
   transform: translateY(-1px);
 }
 
@@ -382,12 +382,12 @@ label[for="chopMode"].labelRow {
 /* Custom cursors for canvas depending on active tool */
 #waveCanvas.tool-play {
   /* play triangle cursor (green) */
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><polygon points='6,4 20,12 6,20' fill='%230BDA8F'/></svg>") 12 12, pointer;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><polygon points='6,4 20,12 6,20' fill='%23FF8C3C'/></svg>") 12 12, pointer;
 }
 
 #waveCanvas.tool-slice {
   /* razor/knife cursor (pink) */
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><rect x='2' y='9' width='18' height='3' rx='1' fill='%23ff2d6f'/><rect x='4' y='13' width='12' height='3' rx='1' fill='%230BDA8F' transform='rotate(-18 10 14)'/></svg>") 12 12, crosshair;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><rect x='2' y='9' width='18' height='3' rx='1' fill='%23ff2d6f'/><rect x='4' y='13' width='12' height='3' rx='1' fill='%23FF8C3C' transform='rotate(-18 10 14)'/></svg>") 12 12, crosshair;
 }
 
 /* Ensure default hover shows pointer when no tool class present */
@@ -409,7 +409,7 @@ label[for="chopMode"].labelRow {
   border-radius: 6px;
 }
 .toolkit .toolBtn {
-  background: linear-gradient(135deg, rgba(11,218,143,0.06), rgba(11,218,143,0.02));
+  background: linear-gradient(135deg, rgba(255,140,60,0.06), rgba(255,140,60,0.02));
   border: 1px solid rgba(255,255,255,0.06);
 }
 
@@ -555,7 +555,7 @@ section {
 
 .modalContent {
   background: url('assets/choprot_banner.png') center/cover no-repeat;
-  border: 2px solid #0BDA8F;
+  border: 2px solid #FF8C3C;
   padding: 1.5rem;
   max-width: 350px;
   width: 90%;
@@ -630,7 +630,7 @@ select {
 
 input[type="range"] {
   width: 260px;
-  accent-color: #0BDA8F;
+  accent-color: #FF8C3C;
 }
 
 #applyModeBtn, #previewBtn, #exportMapBtn {
@@ -647,7 +647,7 @@ input[type="range"] {
 .modal {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(11,218,143,0.15), rgba(0,0,0,0.85));
+  background: radial-gradient(circle at top, rgba(255,140,60,0.12), rgba(0,0,0,0.85));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -660,7 +660,7 @@ input[type="range"] {
 
 .modal-grunge {
   background: url('assets/choprot_banner.png') center/cover no-repeat, linear-gradient(180deg, #0a0a0a, #050505);
-  border: 2px solid #0BDA8F;
+  border: 2px solid #FF8C3C;
   padding: 1.5rem;
   max-width: 350px;
   width: 90%;
@@ -688,7 +688,7 @@ input[type="range"] {
   font-size: 1.8rem;
   letter-spacing: 0.15em;
   margin-bottom: 0.5rem;
-  color: #0BDA8F;
+  color: #FF8C3C;
 }
 
 .modal-question {
@@ -704,7 +704,7 @@ input[type="range"] {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #0BDA8F, #3069CF),
+  background: linear-gradient(135deg, #FF8C3C, #3069CF),
               url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="discrete" tableValues="0 1"/></feComponentTransfer></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
   border: none;
   padding: 0.6rem 1.2rem;
@@ -714,7 +714,7 @@ input[type="range"] {
   letter-spacing: 0.02em;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 3px 12px rgba(11, 218, 143, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 3px 12px rgba(255, 140, 60, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.2s ease;
   filter: contrast(1.1) brightness(0.95);
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
@@ -738,7 +738,7 @@ input[type="range"] {
 
 .btn-primary:hover {
   filter: brightness(1.15) contrast(1.2);
-  box-shadow: 0 4px 16px rgba(11, 218, 143, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(255, 140, 60, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
 }
 
